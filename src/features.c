@@ -152,3 +152,35 @@ void max_component(char *source_path, char component) {
     }
     printf("max_component %c ( %d, %d ): %d", component, max_x_component , max_y_component , max_value);
 }
+void min_component(char *source_path, char component) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+ 
+    int min_value = 256 ; 
+    int min_x_component = 0, min_y_component = 0 ;
+
+    for (int y = 0; y < height ; y++ ) { 
+        for (int x = 0; x < width; x++) {
+            pixelRGB* pixel = get_pixel(data, width, height, channel_count, x, y);
+            int value ;
+
+            if (component == 'R'){
+                value = pixel->R;
+            } else if (component == 'G') { 
+                value = pixel->G;
+            } else {
+                value = pixel->B;
+            }
+
+            if (value < min_value) { 
+                min_value = value;
+                min_x_component=x; 
+                min_y_component=y;  
+            }
+        }
+
+    }
+    printf("min_component %c ( %d, %d ): %d", component, min_x_component , min_y_component , min_value);
+}
