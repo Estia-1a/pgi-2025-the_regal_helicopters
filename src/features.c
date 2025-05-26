@@ -3,6 +3,7 @@
 
 #include "features.h"
 #include "utils.h"
+#include <stdlib.h>
 
 /**
  * @brief Here, you have to code features of the project.
@@ -49,4 +50,22 @@ void tenth_pixel (char *source_path) {
     unsigned char *data;
     read_image_data(source_path, &data, &width, &height, &channel_count);
     printf("tenth_pixel: %d, %d, %d", data[27], data[28], data[29]);
+}
+void print_pixel(char *filename, int x, int y) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    if (!read_image_data(filename, &data, &width, &height, &channel_count)) {
+        printf("Erreur de lecture de l'image\n");
+        return;
+    }
+
+    pixelRGB *px = get_pixel(data, width, height, channel_count, x, y);
+    if (px == NULL) {
+        printf("Coordonnées invalides ou erreur mémoire\n");
+        return;
+    }
+
+    printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, px->R, px->G, px->B);
+    free(px);
 }

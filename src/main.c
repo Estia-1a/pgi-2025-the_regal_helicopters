@@ -47,7 +47,26 @@ int main(int argc, char **argv) {
   if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
     tenth_pixel( configuration.filenames[0] );
   }
+if (strncmp(configuration.command, "print_pixel", 11) == 0) {
+    int x = -1, y = -1;
+
+  
+    if (argc >= 6) {  
+        x = atoi(argv[argc - 2]);
+        y = atoi(argv[argc - 1]);
+    }
+
+    if (x < 0 || y < 0) {
+        printf("Usage: -c print_pixel <x> <y>\n");
+        return 1;
+    }
+
+    print_pixel(configuration.filenames[0], x, y);
+}
+
+
   return 0;
   
 }
+
 
