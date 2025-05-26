@@ -184,3 +184,109 @@ void min_component(char *source_path, char component) {
     }
     printf("min_component %c ( %d, %d ): %d", component, min_x_component , min_y_component , min_value);
 }
+void stat_report(char *source_path) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    /*max_pixel*/ 
+    int max_sum=-1;
+    int max_x=0, max_y= 0; 
+    pixelRGB max_pixel = {0, 0, 0};
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+            int sum = pixel->R + pixel->G + pixel->B;
+
+            if ( sum > max_sum ) {
+                max_sum = sum;
+                max_x =  x ;
+                max_y = y;
+                max_pixel = *pixel;
+            }  
+        }
+    }
+
+    /*min_pixel*/ 
+    int min_sum = 256 * 3;
+    int min_x = 0, min_y = 0;
+    pixelRGB min_pixel = {255, 255, 255};
+
+    for (int y=0 ; y < height; y++) {
+        for (int x=0; x< width; x++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+            int sum = pixel->R + pixel->G + pixel->B;
+ 
+            if (sum < min_sum) {
+                min_sum = sum;
+                min_x=x ;
+                min_y=y;
+                min_pixel = *pixel;
+            }
+        }
+    }
+
+    /*min_component and max_component*/ 
+    int max_value_R =-1 , max_value_G = -1, max_value_B = -1; 
+    int max_x_R = 0, max_y_R = 0, max_x_G = 0, max_y_G = 0, max_x_B = 0, max_y_B = 0;
+    int min_value_R=256, min_value_G=256, min_value_B=256;
+    int min_x_R = 0, min_y_R  = 0,min_x_G = 0, min_y_G = 0, min_x_B = 0, min_y_B = 0;
+ 
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+            /*component R*/ 
+            if (pixel->R>max_value_R) {
+                max_value_R = pixel->R;
+                max_x_R =x;
+                max_y_R = y;
+            }
+            if (pixel->R < min_value_R) {
+                min_value_R = pixel->R ;
+                min_x_R=x ;
+                min_y_R=y ;
+            }
+ 
+            /*component G*/ 
+            if (pixel->G > max_value_G) {
+                max_value_G = pixel->G;
+                max_x_G= x;
+                max_y_G = y;
+            }
+            if (pixel->G < min_value_G) {
+                min_value_G = pixel->G;
+                min_x_G = x;
+                min_y_G= y;
+            }
+
+            /*component B*/  
+            if ( pixel->B > max_value_B ) {
+                max_value_B= pixel->B;
+                max_x_B=x;
+                max_y_B=y ;
+            }
+            if (pixel->B < min_value_B) {
+                min_value_B = pixel->B;
+                min_x_B =x;
+                min_y_B = y;
+            }
+        }
+    } 
+
+    FILE *fp = fopen("stat_report.txt", "w");
+
+    fprintf(fp, "max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, max_pixel.R, max_pixel.G, max_pixel.B) ;
+    fprintf(fp, "min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, min_pixel.R, min_pixel.G, min_pixel.B) ; 
+    fprintf(fp, "max_component R (%d, %d): %d\n", max_x_R , max_y_R, max_value_R); 
+    fprintf(fp, "max_component G (%d, %d): %d\n", max_x_G, max_y_G, max_value_G) ;
+    fprintf(fp, "max_component B (%d, %d): %d\n", max_x_B, max_y_B, max_value_B) ;  
+    fprintf(fp, "min_component R (%d, %d): %d\n", min_x_R , min_y_R, min_value_R) ; 
+    fprintf(fp, "min_component G (%d, %d): %d\n", min_x_G, min_y_G, min_value_G) ;
+    fprintf(fp, "min_component B (%d, %d): %d\n", min_x_B, min_y_B, min_value_B) ; 
+
+    fclose(fp);
+    free_image_data(data);
+}

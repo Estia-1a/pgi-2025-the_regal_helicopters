@@ -75,6 +75,9 @@ int main(int argc, char **argv) {
   if (strncmp(configuration.command, "min_component", 13) == 0) {
     min_component(configuration.filenames[0], configuration.arguments[0][0]);
   }
+  if (strncmp(configuration.command, "stat_report", 11) == 0) {
+    stat_report(configuration.filenames[0]);
+  }
   return 0;
 
 }
