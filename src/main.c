@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
   parse_arguments( argc, argv, &configuration ) ;
   check_debug_mode(configuration);
   check_file();
-  /* END */
+  
 
   /* Use "if ( strncmp( command, <commandname>, 9 ) == 0 )" to check if your <commandname> is called by program.*/
   /* Example with helloworld command
@@ -31,12 +31,16 @@ int main(int argc, char **argv) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     helloWorld();
   }
-  /*
-   * TO COMPLETE
-   */
+  
   if ( strncmp( configuration.command, "dimension", 9 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     dimension(configuration.filenames[0]);
   }
+  if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    first_pixel( configuration.filenames[0] );
+
   return 0;
+  }
 }
+

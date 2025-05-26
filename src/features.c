@@ -28,3 +28,11 @@ void dimension (char *source_path) {
      printf("erreur: ");
     }
 }
+void first_pixel (char *source_path) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    printf("first_pixel: %d, %d, %d", data[0], data[1], data[2]);
+}
