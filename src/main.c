@@ -62,12 +62,15 @@ int main(int argc, char **argv) {
     }
 
     print_pixel(configuration.filenames[0], x, y);
-}
-if (strncmp(configuration.command, "max_pixel", 9) == 0) {
+  }
+  if (strncmp(configuration.command, "max_pixel", 9) == 0) {
     max_pixel(configuration.filenames[0]);
   }
+  if (strncmp(configuration.command, "min_pixel", 9) == 0) {
+    min_pixel(configuration.filenames[0]);
+  }
   return 0;
-  
+
 }
 
 

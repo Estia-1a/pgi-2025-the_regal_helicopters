@@ -95,3 +95,28 @@ void max_pixel(char *source_path) {
     }
     printf("max_pixel (%d, %d): %d, %d, %d", max_x, max_y, max_pixel.R, max_pixel.G, max_pixel.B);
 }
+void min_pixel(char *source_path) {
+    int width, height, channel_count;
+    unsigned char *data;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int min_sum = 256 * 3 ; 
+    int min_x = 0, min_y = 0;
+    pixelRGB min_pixel = {255, 255, 255};
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB* pixel= get_pixel(data, width, height, channel_count, x, y);
+            int sum = pixel->R + pixel ->G + pixel->B;
+
+            if (sum < min_sum ) {
+                min_sum=sum;
+                min_x=x;
+                min_y=y;
+                min_pixel=*pixel;
+            }
+        }
+    }
+    printf("min_pixel (%d, %d): %d, %d, %d", min_x, min_y, min_pixel.R, min_pixel.G, min_pixel.B);
+}
