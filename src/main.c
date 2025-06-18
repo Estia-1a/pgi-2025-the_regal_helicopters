@@ -111,6 +111,9 @@ int main(int argc, char **argv) {
   if (strncmp(configuration.command, "mirror_total", 12) == 0) {
     mirror_total(configuration.filenames[0]);
   }
+  if (strncmp(configuration.command, "scale_crop", 10) == 0) {
+    scale_crop(configuration.filenames[0], atoi(configuration.arguments[0]), atoi(configuration.arguments[1]), atoi(configuration.arguments[2]), atoi(configuration.arguments[3]));  
+  }
   return 0;
   
 }
