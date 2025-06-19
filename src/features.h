@@ -28,5 +28,6 @@ void mirror_total(char *source_path);
 void scale_crop(char *source_path, int center_x, int center_y, int width, int height);
 void color_desaturate(char *source_path);
 void scale_nearest(char *source_path, float scale);
+void scale_bilinear(char *source_path, float scale);
 
 #endif
