@@ -117,8 +117,19 @@ int main(int argc, char **argv) {
   if (strncmp(configuration.command, "color_desaturate", 16) == 0) {
     color_desaturate(configuration.filenames[0]);
   }
+  if (strncmp(configuration.command, "scale_nearest", 13) == 0) {
+    if (configuration.arguments[0]) {
+      float scale = atof(configuration.arguments[0]);
+      if (scale <= 0) {
+        printf("Erreur : le facteur d’échelle doit être > 0\n");
+      } else {
+        scale_nearest(configuration.filenames[0], scale);
+      }
+    } else {
+      printf("Usage : -c scale_nearest <facteur d’échelle>\n");
+    }
+  }
   return 0;
-  
 }
 
 
